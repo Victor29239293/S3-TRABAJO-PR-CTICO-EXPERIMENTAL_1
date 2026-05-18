@@ -10,7 +10,15 @@ class PostListView(ListView):
     context_object_name = 'posts'
     
     def get_queryset(self):
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            return Post.objects.filter(title__icontains=q).order_by('-created_at')
         return Post.objects.all().order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q', '')
+        return context
     
 class PostCreateView(CreateView):
     model = Post
