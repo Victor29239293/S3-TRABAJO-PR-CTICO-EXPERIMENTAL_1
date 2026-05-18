@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Formulario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-b from-orange-50 to-white text-slate-900" style="font-family: 'Space Grotesk', sans-serif;">
+    <header class="mx-auto flex w-full max-w-3xl items-center justify-between px-6 py-8">
+        <h1 class="text-3xl font-bold">
+            {% if post %}
+                Editar publicacion
+            {% else %}
+                Crear publicacion
+            {% endif %}
+        </h1>
+        <a href="{% url 'post_list' %}" class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold transition hover:bg-slate-100">Volver al listado</a>
+    </header>
+
+    <main class="mx-auto w-full max-w-3xl px-6 pb-12">
+        <form method="post" class="space-y-6 rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-orange-100/50">
+            {% csrf_token %}
+
+            <div>
+                <label for="title" class="mb-2 block text-sm font-bold uppercase tracking-wide text-slate-700">Titulo</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value="{% if post %}{{ post.title }}{% endif %}"
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="content" class="mb-2 block text-sm font-bold uppercase tracking-wide text-slate-700">Contenido</label>
+                <textarea id="content" name="content" rows="8" class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-400 focus:ring-4 focus:ring-orange-100" required>{% if post %}{{ post.content }}{% endif %}</textarea>
+            </div>
+
+            <button type="submit" class="rounded-xl bg-slate-900 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-slate-700">
+                Guardar
+            </button>
+        </form>
+    </main>
+</body>
+</html>
